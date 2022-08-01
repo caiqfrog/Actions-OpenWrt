@@ -66,6 +66,11 @@ jobs:
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
+    - name: Add feed sources
+      run: |
+        echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
+        echo 'src-git passwall https://github.com/xiaorouji/openwrt-passwall' >>feeds.conf.default
+
     - name: Update feeds
       run: |
         cd openwrt
