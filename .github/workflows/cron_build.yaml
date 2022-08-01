@@ -12,7 +12,7 @@ name: Cron Build OpenWrt
 
 on:
   schedule:
-    - cron: 0 21 * * *
+    - cron: '50 23 * * *'
   release:
     types: [published]
 
