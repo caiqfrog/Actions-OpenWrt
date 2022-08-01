@@ -99,8 +99,8 @@ jobs:
         cd package/luci-app-passwall
         git init
         git remote add -f origin https://github.com/xiaorouji/openwrt-passwall.git
-        git pull origin
-        git branch --set-upstream-to=origin/luci luci
+        git pull origin luci
+        git branch --set-upstream-to=origin/luci master
 
     - name: install vssr
       run: |
