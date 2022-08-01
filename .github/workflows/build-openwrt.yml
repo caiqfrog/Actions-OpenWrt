@@ -79,6 +79,10 @@ jobs:
         chmod +x $DIY_P2_SH
         cd openwrt
         $GITHUB_WORKSPACE/$DIY_P2_SH
+
+    - name: install openclash
+      run: |
+        cd openwrt
         mkdir package/luci-app-openclash # openclash
         cd package/luci-app-openclash
         git init
@@ -87,7 +91,10 @@ jobs:
         echo "luci-app-openclash" >> .git/info/sparse-checkout
         git pull origin master
         git branch --set-upstream-to=origin/master master
-        cd ../lean # vssr
+ 
+    - name: install vssr
+      run: |
+        cd openwrt/package
         git clone https://github.com/jerrykuku/lua-maxminddb.git  #git lua-maxminddb依赖
         git clone https://github.com/jerrykuku/luci-app-vssr.git
 
