@@ -13,7 +13,8 @@ name: Build OpenWrt
 on:
   schedule:
     - cron: 0 20 * * *
-  repository_dispatch:
+  release:
+    types: [published]
 
 env:
   REPO_URL: https://github.com/coolsnowwolf/lede
