@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: Cron Build OpenWrt
+name: OpenWrt-D525
 
 on:
   schedule:
