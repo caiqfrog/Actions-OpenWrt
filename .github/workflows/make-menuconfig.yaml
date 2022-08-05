@@ -73,7 +73,8 @@ jobs:
     - name: Make diff config
       run: |
         cd openwrt
-        ./scripts/diffconfig.sh > ../bin/"$DIFF_CONFIG_FILE"
+        mkdir -p ./bin
+        ./scripts/diffconfig.sh > "./bin/$DIFF_CONFIG_FILE"
 
     - name: Upload bin directory
       uses: actions/upload-artifact@main
