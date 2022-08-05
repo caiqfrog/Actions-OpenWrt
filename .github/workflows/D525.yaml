@@ -67,35 +67,18 @@ jobs:
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
-    - name: install passwall
-      run: |
-        cd openwrt
-        mkdir package/luci-app-passwall
-        cd package/luci-app-passwall
-        git init
-        git remote add -f origin https://github.com/xiaorouji/openwrt-passwall.git
-        git pull origin luci
-        git branch --set-upstream-to=origin/luci master
-
     - name: Add feed sources
       run: |
         cd openwrt
         echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
-        echo 'src-git passwall https://github.com/xiaorouji/openwrt-passwall' >>feeds.conf.default
+        echo "src-git passwallpack https://github.com/xiaorouji/openwrt-passwall.git;packages" >> feeds.conf.default
+        echo "src-git passwallluci https://github.com/xiaorouji/openwrt-passwall.git;luci" >> feeds.conf.default
 
     - name: Update feeds
       run: |
         cd openwrt
         ./scripts/feeds update -a
         ./scripts/feeds install -a
-
-    - name: Load custom configuration
-      run: |
-        [ -e files ] && mv files openwrt/files
-        [ -e $CONFIG_FILE ] && mv $CONFIG_FILE openwrt/.config
-        chmod +x $DIY_P2_SH
-        cd openwrt
-        $GITHUB_WORKSPACE/$DIY_P2_SH
 
     - name: Download package
       id: package
