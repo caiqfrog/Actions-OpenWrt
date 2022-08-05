@@ -87,6 +87,12 @@ jobs:
         name: "$DIFF_CONFIG_FILE"
         path: openwrt/bin
 
+    - name: Upload config1
+      uses: actions/upload-artifact@main
+      with:
+        name: diff_config
+        path: "openwrt/bin/$DIFF_CONFIG_FILE"
+
     - name: Delete workflow runs
       uses: GitRML/delete-workflow-runs@main
       with:
