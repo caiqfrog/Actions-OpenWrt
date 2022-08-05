@@ -72,13 +72,13 @@ jobs:
     - name: Make diff config
       run: |
         cd openwrt
-        ./scripts/diffconfig.sh > ../bin/"DIFF_CONFIG_FILE"
+        ./scripts/diffconfig.sh > ../bin/"$DIFF_CONFIG_FILE"
 
     - name: Upload bin directory
       uses: actions/upload-artifact@main
       if: steps.compile.outputs.status == 'success'
       with:
-        name: "DIFF_CONFIG_FILE"
+        name: "$DIFF_CONFIG_FILE"
         path: openwrt/bin
 
     - name: Delete workflow runs
