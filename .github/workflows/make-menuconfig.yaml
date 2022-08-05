@@ -82,7 +82,6 @@ jobs:
 
     - name: Upload config
       uses: actions/upload-artifact@main
-      if: steps.compile.outputs.status == 'success'
       with:
         name: Openwrt_config
         path: ${{ env.FIRMWARE }}
