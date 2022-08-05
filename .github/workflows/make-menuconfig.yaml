@@ -84,8 +84,8 @@ jobs:
       uses: actions/upload-artifact@main
       if: steps.compile.outputs.status == 'success'
       with:
-        name: "$DIFF_CONFIG_FILE"
-        path: openwrt/bin
+        name: Openwrt_config
+        path: openwrt/bin/*
 
     - name: Upload config1
       uses: actions/upload-artifact@main
