@@ -1,0 +1,97 @@
+#
+# Copyright (c) 2019-2020 P3TERX <https://p3terx.com>
+#
+# This is free software, licensed under the MIT License.
+# See /LICENSE for more information.
+#
+# https://github.com/P3TERX/Actions-OpenWrt
+# Description: Build OpenWrt using GitHub Actions
+#
+
+name: OpenWrt Menuconfig
+
+on:
+  repository_dispatch:
+  workflow_dispatch:
+
+env:
+  REPO_URL: https://github.com/openwrt/openwrt
+  REPO_BRANCH: master
+  FEEDS_CONF: feeds.conf.default
+  CONFIG_FILE: diff.config
+  TZ: Asia/Shanghai
+
+jobs:
+  build:
+    name: Build OpenWrt firmware
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout
+      uses: actions/checkout@main
+
+    - name: Initialization environment
+      env:
+        DEBIAN_FRONTEND: noninteractive
+      run: |
+        df -h
+        sudo timedatectl set-timezone "$TZ"
+        sudo mkdir -p /workdir
+        sudo chown $USER:$GROUPS /workdir
+
+    - name: Clone source code
+      working-directory: /workdir
+      run: |
+        df -hT $PWD
+        git clone $REPO_URL -b $REPO_BRANCH openwrt
+        ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
+
+    - name: Add feed sources
+      run: |
+        cd openwrt
+        echo 'src-git helloworld https://github.com/fw876/helloworld' >> feeds.conf.default
+        echo "src-git passwallpack https://github.com/xiaorouji/openwrt-passwall.git;packages" >> feeds.conf.default
+        echo "src-git passwallluci https://github.com/xiaorouji/openwrt-passwall.git;luci" >> feeds.conf.default
+        echo "src-git netgear git://github.com/ysoyipek/luci-theme-netgear.git" >> feeds.conf.default # luci-theme-netgear
+
+    - name: Update feeds
+      run: |
+        cd openwrt
+        ./scripts/feeds update -a
+        ./scripts/feeds install -a
+
+    - name: SSH connection to Actions
+      uses: P3TERX/ssh2actions@v1.0.0
+      env:
+        TELEGRAM_CHAT_ID: ${{ secrets.TELEGRAM_CHAT_ID }}
+        TELEGRAM_BOT_TOKEN: ${{ secrets.TELEGRAM_BOT_TOKEN }}
+
+    - name: Check space usage
+      if: (!cancelled())
+      run: df -hT
+
+    - name: Organize config
+      id: organize
+      run: |
+        cd openwrt
+        mkdir -p ./bin
+        ./scripts/diffconfig.sh > "./bin/$CONFIG_FILE"
+        cd bin
+        echo "FIRMWARE=$PWD" >> $GITHUB_ENV
+        echo "::set-output name=status::success"
+        cat $CONFIG_FILE
+
+    - name: Upload config
+      uses: actions/upload-artifact@main
+      with:
+        name: Openwrt_config
+        path: ${{ env.FIRMWARE }}
+
+    - name: Delete workflow runs
+      uses: GitRML/delete-workflow-runs@main
+      with:
+        retain_days: 1
+        keep_minimum_runs: 3
+  
+  
+  
