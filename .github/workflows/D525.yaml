@@ -11,8 +11,6 @@
 name: OpenWrt-D525
 
 on:
-  schedule:
-  #   - cron: '0 8 * * *'
   repository_dispatch:
   workflow_dispatch:
 
