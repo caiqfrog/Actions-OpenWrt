@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: Lede Menuconfig
+name: Make Lede Menuconfig
 
 on:
   repository_dispatch:
@@ -51,9 +51,6 @@ jobs:
       run: |
         cd openwrt
         echo 'src-git helloworld https://github.com/fw876/helloworld' >> feeds.conf.default
-        # echo "src-git passwallpack https://github.com/xiaorouji/openwrt-passwall.git;packages" >> feeds.conf.default
-        # echo "src-git passwallluci https://github.com/xiaorouji/openwrt-passwall.git;luci" >> feeds.conf.default
-        echo "src-git passwall https://github.com/xiaorouji/openwrt-passwall" >> feeds.conf.default
         echo "src-git passwall2 https://github.com/xiaorouji/openwrt-passwall2" >> feeds.conf.default
         echo "src-git passwallpacks https://github.com/xiaorouji/openwrt-passwall-packages" >> feeds.conf.default  
 
