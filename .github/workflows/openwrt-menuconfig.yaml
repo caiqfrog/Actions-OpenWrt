@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: OpenWrt Menuconfig
+name: Make OpenWrt Menuconfig
 
 on:
   repository_dispatch:
