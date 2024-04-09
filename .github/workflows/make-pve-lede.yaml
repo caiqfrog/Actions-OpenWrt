@@ -8,7 +8,7 @@
 # Description: Build OpenWrt using GitHub Actions
 #
 
-name: Make Lede x86-64
+name: Make Lede For PVE
 
 on:
   # schedule:
