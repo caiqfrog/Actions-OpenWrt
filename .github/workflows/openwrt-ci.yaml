@@ -66,26 +66,31 @@ jobs:
         git clone $REPO_URL -b $REPO_BRANCH openwrt
         ln -sf /workdir/openwrt $GITHUB_WORKSPACE/openwrt
 
-    - name: install openclash
-      run: |
-        cd openwrt/package
-        git clone --depth=1 https://github.com/vernesong/OpenClash.git
-        mv OpenClash/luci-app-openclash .
-        rm -rf OpenClash
+    # - name: install openclash
+    #   run: |
+    #     cd openwrt/package
+    #     git clone --depth=1 https://github.com/vernesong/OpenClash.git
+    #     mv OpenClash/luci-app-openclash .
+    #     rm -rf OpenClash
   
     - name: install hellword
       run: |
         cd openwrt
         git clone --depth=1 https://github.com/fw876/helloworld.git package/helloworld
   
-    - name: install passwall2
-      run: |
-        cd openwrt/package
-        git clone --depth=1 https://github.com/xiaorouji/openwrt-passwall2.git
-        mv openwrt-passwall2/luci-app-passwall2 .
-        rm -rf openwrt-passwall2
-        echo "src-git passwallpacks https://github.com/xiaorouji/openwrt-passwall-packages" >> feeds.conf.default
+    # - name: install passwall2
+    #   run: |
+    #     cd openwrt/package
+    #     git clone --depth=1 https://github.com/xiaorouji/openwrt-passwall2.git
+    #     mv openwrt-passwall2/luci-app-passwall2 .
+    #     rm -rf openwrt-passwall2
+    #     echo "src-git passwallpacks https://github.com/xiaorouji/openwrt-passwall-packages" >> feeds.conf.default
 
+    - name: Add feed sources
+      run: |
+        cd openwrt
+        echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
+        
     - name: Update feeds
       run: |
         cd openwrt
@@ -195,7 +200,7 @@ jobs:
       uses: dev-drprasad/delete-older-releases@v0.1.0
       if: env.UPLOAD_RELEASE == 'true' && !cancelled()
       with:
-        keep_latest: 3
+        keep_latest: 9
         delete_tags: true
       env:
         GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
