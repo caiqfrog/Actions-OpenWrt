@@ -90,6 +90,7 @@ jobs:
       run: |
         cd openwrt
         echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
+        echo "src-git netgear https://github.com/ysoyipek/luci-theme-netgear.git" >> feeds.conf.default
         
     - name: Update feeds
       run: |
