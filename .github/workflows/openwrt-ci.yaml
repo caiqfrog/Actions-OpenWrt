@@ -73,10 +73,10 @@ jobs:
     #     mv OpenClash/luci-app-openclash .
     #     rm -rf OpenClash
   
-    - name: install hellword
-      run: |
-        cd openwrt
-        git clone --depth=1 https://github.com/fw876/helloworld.git package/helloworld
+    # - name: install hellword
+    #   run: |
+    #     cd openwrt
+    #     git clone --depth=1 https://github.com/fw876/helloworld.git package/helloworld
   
     # - name: install passwall2
     #   run: |
@@ -89,7 +89,7 @@ jobs:
     - name: Add feed sources
       run: |
         cd openwrt
-        echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
+        # echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
         echo "src-git netgear https://github.com/ysoyipek/luci-theme-netgear.git" >> feeds.conf.default
         
     - name: Update feeds
