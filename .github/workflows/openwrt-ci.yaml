@@ -58,6 +58,16 @@ jobs:
         sudo timedatectl set-timezone "$TZ"
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
+        
+    - name: Upgrade golang
+      working-directory: /workdir
+      run: |
+        cd openwrt
+        wget https://go.dev/dl/go1.22.2.linux-amd64.tar.gz
+        tar xvf go1.22.2.linux-amd64.tar.gz
+        export GOROOT=$(pwd)/go
+        export PATH=$(pwd)/go/bin:$PATH
+        go version
 
     - name: Clone source code
       working-directory: /workdir
