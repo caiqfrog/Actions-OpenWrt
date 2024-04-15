@@ -73,10 +73,13 @@ jobs:
     #     mv OpenClash/luci-app-openclash .
     #     rm -rf OpenClash
   
-    # - name: install hellword
-    #   run: |
-    #     cd openwrt
-    #     git clone --depth=1 https://github.com/fw876/helloworld.git package/helloworld
+    - name: install hellword
+      run: |
+        cd openwrt
+        git clone --depth=1 https://github.com/fw876/helloworld.git package/helloworld
+        # fix golang version
+        rm -rf feeds/packages/lang/golang
+        svn co https://github.com/openwrt/packages/branches/openwrt-23.05/lang/golang feeds/packages/lang/golang
   
     # - name: install passwall2
     #   run: |
@@ -89,8 +92,9 @@ jobs:
     - name: Add feed sources
       run: |
         cd openwrt
-        # echo 'src-git helloworld https://github.com/fw876/helloworld' >>feeds.conf.default
+        # git clone --depth=1 https://github.com/fw876/helloworld.git package/helloworld
         echo "src-git netgear https://github.com/ysoyipek/luci-theme-netgear.git" >> feeds.conf.default
+        echo 'src-git argon https://github.com/jerrykuku/luci-theme-argon.git' >> feeds.conf.default
         
     - name: Update feeds
       run: |
@@ -120,7 +124,7 @@ jobs:
       run: |
         cd openwrt
         echo -e "$(nproc) thread compile"
-        make -j$(nproc) || make -j1 V=s
+        make -j$(nproc) V=s || make -j1 V=s
         echo "::set-output name=status::success"
         grep '^CONFIG_TARGET.*DEVICE.*=y' .config | sed -r 's/.*DEVICE_(.*)=y/\1/' > DEVICE_NAME
         [ -s DEVICE_NAME ] && echo "DEVICE_NAME=_$(cat DEVICE_NAME)" >> $GITHUB_ENV
