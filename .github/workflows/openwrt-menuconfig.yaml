@@ -55,9 +55,10 @@ jobs:
       run: |
         cd openwrt
         #echo 'src-git helloworld https://github.com/fw876/helloworld' >> feeds.conf.default
-        #echo "src-git passwall2 https://github.com/xiaorouji/openwrt-passwall2" >> feeds.conf.default
-        #echo "src-git passwallpacks https://github.com/xiaorouji/openwrt-passwall-packages" >> feeds.conf.default
+        echo "src-git passwall2 https://github.com/xiaorouji/openwrt-passwall2" >> feeds.conf.default
+        echo "src-git passwallpacks https://github.com/xiaorouji/openwrt-passwall-packages" >> feeds.conf.default
         echo "src-git netgear https://github.com/ysoyipek/luci-theme-netgear.git" >> feeds.conf.default
+        echo "src-git netgear https://github.com/jerrykuku/luci-theme-argon.git" >> feeds.conf.default
         #echo 'src-git openclash https://github.com/vernesong/OpenClash' >> feeds.conf.default
 
     - name: Update feeds
