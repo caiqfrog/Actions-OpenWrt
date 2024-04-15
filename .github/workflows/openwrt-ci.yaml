@@ -38,10 +38,15 @@ jobs:
   build:
     name: Build OpenWrt firmware
     runs-on: ubuntu-latest
-
+    
     steps:
     - name: Checkout
       uses: actions/checkout@main
+
+    - name: Set up Go
+      uses: actions/setup-go@v1
+      with:
+        go-version: 1.22.2
 
     - name: Initialization environment
       env:
@@ -58,15 +63,6 @@ jobs:
         sudo timedatectl set-timezone "$TZ"
         sudo mkdir -p /workdir
         sudo chown $USER:$GROUPS /workdir
-        
-    - name: Upgrade golang
-      run: |
-        wget https://go.dev/dl/go1.22.2.linux-amd64.tar.gz
-        tar xzf go1.22.2.linux-amd64.tar.gz
-        export GOROOT=$(pwd)/go
-        export PATH=$(pwd)/go/bin:$PATH
-        whereis go
-        go version
 
     - name: Clone source code
       working-directory: /workdir
