@@ -78,13 +78,13 @@ jobs:
     #     mv OpenClash/luci-app-openclash .
     #     rm -rf OpenClash
   
-    - name: install hellword
-      run: |
-        cd openwrt
-        git clone --depth=1 -b main https://github.com/fw876/helloworld.git package/helloworld
-        # fix golang version
-        #rm -rf feeds/packages/lang/golang
-        #svn co https://github.com/openwrt/packages/branches/openwrt-23.05/lang/golang feeds/packages/lang/golang
+    # - name: install hellword
+    #   run: |
+    #     cd openwrt
+    #     git clone --depth=1 -b main https://github.com/fw876/helloworld.git package/helloworld
+    #     # fix golang version
+    #     #rm -rf feeds/packages/lang/golang
+    #     #svn co https://github.com/openwrt/packages/branches/openwrt-23.05/lang/golang feeds/packages/lang/golang
   
     # - name: install passwall2
     #   run: |
@@ -94,10 +94,18 @@ jobs:
     #     rm -rf openwrt-passwall2
     #     echo "src-git passwallpacks https://github.com/xiaorouji/openwrt-passwall-packages" >> feeds.conf.default
 
+    - name: Add Theme
+      run: |
+        cd openwrt/package
+        git clone --depth=1 https://github.com/jerrykuku/luci-theme-argon.git
+        git clone --depth=1 https://github.com/ysoyipek/luci-theme-netgear.git
+
     - name: Add feed sources
       run: |
         cd openwrt
         # git clone --depth=1 https://github.com/fw876/helloworld.git package/helloworld
+        echo 'src-git passwall2 https://github.com/xiaorouji/openwrt-passwall2.git' >> feeds.conf.default
+        echo "src-git passwallpacks https://github.com/xiaorouji/openwrt-passwall-packages" >> feeds.conf.default
         echo "src-git netgear https://github.com/ysoyipek/luci-theme-netgear.git" >> feeds.conf.default
         echo 'src-git argon https://github.com/jerrykuku/luci-theme-argon.git' >> feeds.conf.default
         
